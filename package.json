@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "aisdk": "tsx app/test/aisdk.ts",
     "extraction": "tsx app/\\(1-extraction\\)/extraction.ts",
+    "advanced-prompt-engineering": "tsx app/\\(1-extraction\\)/advanced-prompt-engineering.ts",
+    "advanced-extraction": "tsx app/\\(1-extraction\\)/advanced-extraction.ts",
+    "advanced-extraction-2": "tsx app/\\(1-extraction\\)/advanced-extraction-2.ts",
+    "streaming-extraction-pipeline": "tsx app/\\(1-extraction\\)/streaming-extraction-pipeline.ts",
     "classification": "tsx app/\\(2-classification\\)/classification.ts",
     "invisible-ai:compare": "tsx app/\\(2-invisible-ai\\)/test-structured.ts",
     "invisible-ai:demo": "tsx app/\\(2-invisible-ai\\)/invisible-ai-demo.ts"
@@ -30,6 +35,7 @@
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "tailwind-merge": "^2.5.5",
+    "tiktoken": "^1.0.22",
     "zod": "^3.23.8"
   },
   "devDependencies": {
