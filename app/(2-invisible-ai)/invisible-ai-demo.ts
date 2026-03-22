@@ -7,15 +7,36 @@ import { z } from "zod";
 async function smartFormFill(userInput: string) {
   console.log("\n🤖 Invisible AI: Smart Form Filling\n");
   console.log(`User types: "${userInput}"\n`);
+  // Replace the TODOs in smartFormFill with:
 
-  // TODO: Create a Zod schema for calendar event details
-  // Include fields like: eventTitle, date, time, duration, location, attendees, notes
+  // Define the structure we want
+  const eventSchema = z.object({
+    eventTitle: z.string().describe('The title or purpose of the event'),
+    date: z.string().describe('The date of the event'),
+    time: z.string().nullable().describe('The time of the event'),
+    duration: z.string().nullable().describe('How long the event will last'),
+    location: z.string().nullable().describe('Where the event will take place'),
+    attendees: z.array(z.string()).nullable().describe('People attending'),
+    notes: z.string().nullable().describe('Additional notes or agenda items'),
+  });
 
-  // TODO: Use generateText with Output.object() to extract structured data from userInput
-  // The AI should parse the natural language and fill the form fields
+  // Extract structured data from natural language
+  const { output: eventDetails } = await generateText({
+    model: 'openai/gpt-5-mini',
+    prompt: `Extract calendar event details from: "${userInput}"`,
+    output: Output.object({ schema: eventSchema }),
+  });
 
-  // TODO: Display the extracted data in a user-friendly way
-  // Show how this saves the user time and effort
+  // Display as if it's a form being auto-filled
+  console.log('✨ AI automatically fills your form:\n');
+  console.log(`📅 Event: ${eventDetails.eventTitle}`);
+  console.log(`📆 Date: ${eventDetails.date}`);
+  if (eventDetails.time) console.log(`⏰ Time: ${eventDetails.time}`);
+  if (eventDetails.location) console.log(`📍 Location: ${eventDetails.location}`);
+  if (eventDetails.attendees) console.log(`👥 Attendees: ${eventDetails.attendees.join(', ')}`);
+  if (eventDetails.notes) console.log(`📝 Notes: ${eventDetails.notes}`);
+
+  console.log('\n✅ Form ready to save - no manual input needed!');
 }
 
 // Example: Smart email categorization
@@ -23,14 +44,28 @@ async function smartEmailTriage(emailSubject: string, emailPreview: string) {
   console.log("\n📧 Invisible AI: Email Smart Triage\n");
 
   // TODO: Create a Zod schema for email triage
-  // Include: category (urgent/action-required/fyi/spam/newsletter)
-  //          priority (high/medium/low)
-  //          suggestedFolder, requiresResponse, estimatedResponseTime
+  const emailSchema = z.object({
+    category: z.enum(['urgent', 'action-required', 'fyi', 'spam', 'newsletter', 'other']),
+    priority: z.enum(['high', 'medium', 'low']),
+    suggestedResponse: z.string().nullable(),
+    suggestedFolder: z.string().nullable(),
+    requiresReponse: z.string().nullable(),
+    estimatedResponseTime: z.string().nullable(),
+  })
+  
+  const { output } = await generateText({
+    model: 'openai/gpt-5-mini',
+    prompt: `I need to extract fields like priority, category, and suggested response from user emails.: "${emailSubject}"`,
+    output: Output.object({ schema: emailSchema }),
+  })
 
-  // TODO: Use generateText with Output.object() to analyze and categorize the email
-
-  // TODO: Display the triage results
-  // Show how email gets automatically organized
+  console.log("✨ AI automatically triage you email:\n")
+  console.log(`Category: ${output.category}`, );
+  console.log(`Priority: ${output.priority}` );
+  if (output?.suggestedResponse) console.log(`SuggestedResponse: ${output.suggestedResponse}`);
+  if (output?.suggestedFolder) console.log(`SuggestedFolder: ${output.suggestedFolder}`);
+  if (output.requiresReponse) console.log(`RequiresReponse: ${output.requiresReponse}`);
+  if (output.estimatedResponseTime) console.log(`EstimatedResponseTime: ${output.estimatedResponseTime}`);
 }
 
 async function runExamples() {
