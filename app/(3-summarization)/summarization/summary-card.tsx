@@ -7,9 +7,9 @@ import { CardContent, Card } from "@/components/ui/card";
 
 type SummaryCardProps = {
   headline: string;
-  context: string;
-  discussionPoints: string;
-  takeaways: string;
+  context: string[];
+  discussionPoints: string[];
+  takeaways: string[];
 };
 
 export function SummaryCard({
@@ -20,13 +20,29 @@ export function SummaryCard({
 }: SummaryCardProps) {
   return (
     <Card>
-      <CardContent className="space-y-4">
-        <h2 className="text-xl font-semibold pt-4">{headline}</h2>
-        <ul className="list-disc space-y-2 pl-5 text-sm">
-          <li>{context}</li>
-          <li>{discussionPoints}</li>
-          <li>{takeaways}</li>
-        </ul>
+      <CardContent className="space-y-4 pt-4">
+        <h2 className="text-xl font-semibold">{headline}</h2>
+
+        <section>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Context</h3>
+          <ul className="list-disc pl-5 text-sm space-y-1">
+            {context.map((item, i) => <li key={i}>{item}</li>)}
+          </ul>
+        </section>
+
+        <section>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Discussion Points</h3>
+          <ul className="list-disc pl-5 text-sm space-y-1">
+            {discussionPoints.map((item, i) => <li key={i}>{item}</li>)}
+          </ul>
+        </section>
+
+        <section>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Takeaways</h3>
+          <ul className="list-disc pl-5 text-sm space-y-1">
+            {takeaways.map((item, i) => <li key={i}>{item}</li>)}
+          </ul>
+        </section>
       </CardContent>
     </Card>
   );
