@@ -3,7 +3,6 @@ import { HeroSection } from "@/components/hero-section"
 import { LessonCard } from "@/components/lesson-card"
 import { DemoSection } from "@/components/demo-section"
 import { Footer } from "@/components/footer"
-import { FileText, Database, MessageSquare } from "lucide-react"
 
 const lessons = [
   {
@@ -11,7 +10,7 @@ const lessons = [
     title: "Sumarização",
     description: "Aprenda a usar AI para resumir conteúdo de texto e mensagens de forma inteligente e contextual.",
     lesson: 3,
-    icon: FileText,
+    icon: "FileText" as const,
     gradient: "from-emerald-500/20 to-emerald-600/5"
   },
   {
@@ -19,7 +18,7 @@ const lessons = [
     title: "Extração",
     description: "Extraia dados estruturados de texto não estruturado usando schemas Zod e validação automática.",
     lesson: 4,
-    icon: Database,
+    icon: "Database" as const,
     gradient: "from-blue-500/20 to-blue-600/5"
   },
   {
@@ -27,7 +26,7 @@ const lessons = [
     title: "Chatbot",
     description: "Construa um chatbot interativo com streaming de respostas e chamadas de ferramentas em tempo real.",
     lesson: 5,
-    icon: MessageSquare,
+    icon: "MessageSquare" as const,
     gradient: "from-amber-500/20 to-amber-600/5"
   }
 ]

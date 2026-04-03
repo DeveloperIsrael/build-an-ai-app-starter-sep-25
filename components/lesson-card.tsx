@@ -1,15 +1,21 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUpRight, type LucideIcon } from "lucide-react"
+import { ArrowUpRight, FileText, Database, MessageSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
+
+const iconMap = {
+  FileText,
+  Database,
+  MessageSquare
+}
 
 interface LessonCardProps {
   href: string
   title: string
   description: string
   lesson: number
-  icon: LucideIcon
+  icon: keyof typeof iconMap
   gradient?: string
 }
 
@@ -18,9 +24,10 @@ export function LessonCard({
   title, 
   description, 
   lesson,
-  icon: Icon,
+  icon,
   gradient = "from-blue-500/20 to-blue-600/5"
 }: LessonCardProps) {
+  const Icon = iconMap[icon]
   return (
     <Link href={href} className="group block">
       <div className={cn(
