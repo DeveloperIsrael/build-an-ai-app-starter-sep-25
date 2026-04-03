@@ -6,7 +6,7 @@ import messages from "./messages.json";
 import { useState } from "react";
 
 import { generateSummary } from './actions'; // Import the action
-import { SummaryCard } from './summary-card'; // Import the UI component
+import { SummaryCard } from '@/components/SummaryCard'; // Import the UI component
 
 // Define the expected type based on the action's return type
 type Summary = Awaited<ReturnType<typeof generateSummary>>;

@@ -8,9 +8,9 @@ import { MessageSquare, List, CheckCircle } from "lucide-react"
 
 interface SummaryCardProps {
   headline: string
-  context: string
-  discussionPoints: string
-  takeaways: string
+  context: string[]
+  discussionPoints: string[]
+  takeaways: string[]
 }
 
 export function SummaryCard({
@@ -19,9 +19,6 @@ export function SummaryCard({
   discussionPoints,
   takeaways,
 }: SummaryCardProps) {
-  const discussionItems = parseToList(discussionPoints)
-  const takeawayItems = parseToList(takeaways)
-
   return (
     <Card className="w-full max-w-2xl border border-border/50 shadow-md bg-card">
       <CardHeader className="pb-4">
@@ -45,7 +42,7 @@ export function SummaryCard({
           title="Pontos de Discussão"
         >
           <ul className="space-y-2">
-            {discussionItems.map((item, index) => (
+            {discussionPoints.map((item, index) => (
               <li
                 key={index}
                 className="text-sm text-foreground flex items-start gap-2"
@@ -62,7 +59,7 @@ export function SummaryCard({
           title="Conclusões"
         >
           <ul className="space-y-2">
-            {takeawayItems.map((item, index) => (
+            {takeaways.map((item, index) => (
               <li
                 key={index}
                 className="text-sm text-foreground flex items-start gap-2"
@@ -96,15 +93,4 @@ function Section({
       <div className="pl-7">{children}</div>
     </div>
   )
-}
-
-function parseToList(text: string): string[] {
-  if (!text) return []
-
-  const lines = text
-    .split(/[\n;]/)
-    .map((line) => line.replace(/^[-•*]\s*/, "").trim())
-    .filter((line) => line.length > 0)
-
-  return lines.length > 0 ? lines : [text]
 }
