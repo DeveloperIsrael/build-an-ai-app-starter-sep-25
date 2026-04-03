@@ -1,61 +1,69 @@
-import Link from "next/link";
+import { Navbar } from "@/components/navbar"
+import { HeroSection } from "@/components/hero-section"
+import { LessonCard } from "@/components/lesson-card"
+import { DemoSection } from "@/components/demo-section"
+import { Footer } from "@/components/footer"
+import { FileText, Database, MessageSquare } from "lucide-react"
+
+const lessons = [
+  {
+    href: "/summarization",
+    title: "Sumarização",
+    description: "Aprenda a usar AI para resumir conteúdo de texto e mensagens de forma inteligente e contextual.",
+    lesson: 3,
+    icon: FileText,
+    gradient: "from-emerald-500/20 to-emerald-600/5"
+  },
+  {
+    href: "/extraction",
+    title: "Extração",
+    description: "Extraia dados estruturados de texto não estruturado usando schemas Zod e validação automática.",
+    lesson: 4,
+    icon: Database,
+    gradient: "from-blue-500/20 to-blue-600/5"
+  },
+  {
+    href: "/chat",
+    title: "Chatbot",
+    description: "Construa um chatbot interativo com streaming de respostas e chamadas de ferramentas em tempo real.",
+    lesson: 5,
+    icon: MessageSquare,
+    gradient: "from-amber-500/20 to-amber-600/5"
+  }
+]
 
 export default function Home() {
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
-      <main className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-gray-900">Vercel AI SDK Tutorial</h1>
-        
-        <p className="text-lg text-gray-600 mb-12">
-          Learn how to build AI applications with the Vercel AI SDK. Navigate to the lessons below to get started.
-        </p>
+    <div className="min-h-screen flex flex-col bg-background">
+      <Navbar />
+      
+      <main className="flex-1">
+        <HeroSection />
 
-        <div className="grid gap-6">
-          <Link
-            href="/summarization"
-            className="block p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-400 transition-colors shadow-sm hover:shadow-md"
-          >
-            <h2 className="text-2xl font-semibold mb-2 text-gray-900">Lesson 3: Summarization</h2>
-            <p className="text-gray-600">
-              Learn how to use AI to summarize text content and messages.
-            </p>
-          </Link>
+        {/* Lessons Section */}
+        <section className="py-20 md:py-28">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mb-12">
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Explore as Lições
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Siga o tutorial completo para aprender a construir aplicações com AI do zero.
+              </p>
+            </div>
 
-          <Link
-            href="/extraction"
-            className="block p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-400 transition-colors shadow-sm hover:shadow-md"
-          >
-            <h2 className="text-2xl font-semibold mb-2 text-gray-900">Lesson 4: Extraction</h2>
-            <p className="text-gray-600">
-              Extract structured data from unstructured text using AI.
-            </p>
-          </Link>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {lessons.map((lesson) => (
+                <LessonCard key={lesson.href} {...lesson} />
+              ))}
+            </div>
+          </div>
+        </section>
 
-          <Link
-            href="/chat"
-            className="block p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-400 transition-colors shadow-sm hover:shadow-md"
-          >
-            <h2 className="text-2xl font-semibold mb-2 text-gray-900">Lesson 5: Chatbot</h2>
-            <p className="text-gray-600">
-              Build an interactive chatbot with the Vercel AI SDK.
-            </p>
-          </Link>
-        </div>
-
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <p className="text-sm text-gray-500">
-            Follow the full tutorial at{" "}
-            <a 
-              href="https://vercel.com/academy/ai-sdk" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              vercel.com/academy/ai-sdk
-            </a>
-          </p>
-        </div>
+        <DemoSection />
       </main>
+
+      <Footer />
     </div>
-  );
+  )
 }
