@@ -1,8 +1,8 @@
 "use client";
- 
+
 import { useChat } from "@ai-sdk/react";
 import { useState } from "react";
- 
+import Weather from "./weather";
 import {
 	Conversation,
 	ConversationContent,
@@ -10,17 +10,24 @@ import {
 } from "@/components/ai-elements/conversation";
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import {
+	Tool,
+	ToolContent,
+	ToolHeader,
+	ToolInput,
+	ToolOutput,
+} from "@/components/ai-elements/tool";
+import {
 	PromptInput,
 	PromptInputTextarea,
 	PromptInputSubmit,
 } from "@/components/ai-elements/prompt-input";
- 
+
 export default function Chat() {
 	const [input, setInput] = useState("");
 	const { messages, sendMessage, status } = useChat();
- 
+
 	const isLoading = status === "streaming" || status === "submitted";
- 
+
 	return (
 		<div className="flex flex-col h-screen">
 			<Conversation>
@@ -35,12 +42,34 @@ export default function Chat() {
 							<Message key={message.id} from={message.role}>
 								<MessageContent>
 									{message.role === "assistant" ? (
-										<MessageResponse>
-											{message.parts
-												?.filter((part) => part.type === "text")
-												.map((part) => part.text)
-												.join("")}
-										</MessageResponse> // 👈 Wrap AI messages in MessageResponse
+										message.parts?.map((part, i) => {
+											switch (part.type) {
+												case "text":
+													return (
+														<MessageResponse key={`${message.id}-${i}`}>
+															{part.text}
+														</MessageResponse>
+													);
+												case "tool-getWeather":
+													if (part.state === 'output-available' && part.output) {
+														return <Weather key={part.toolCallId || `${message.id}-${i}`} weatherData={part.output} />;
+													}
+													return (
+														<Tool key={part.toolCallId || `${message.id}-${i}`}>
+															<ToolHeader type={part.type} state={part.state} />
+															<ToolContent>
+																<ToolInput input={part.input} />
+																<ToolOutput
+																	output={JSON.stringify(part.output, null, 2)}
+																	errorText={part.errorText}
+																/>
+															</ToolContent>
+														</Tool>
+													);
+												default:
+													return null;
+											}
+										})
 									) : (
 										message.parts?.map(
 											(part) => part.type === "text" && part.text,
@@ -52,7 +81,7 @@ export default function Chat() {
 					)}
 				</ConversationContent>
 			</Conversation>
- 
+
 			<div className="border-t p-4">
 				<PromptInput
 					onSubmit={(message, event) => {
